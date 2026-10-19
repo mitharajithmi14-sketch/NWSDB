@@ -1,0 +1,35 @@
+[
+  {
+    "Name": "NWSDB - all services + website",
+    "Projects": [
+      {
+        "Path": "src\\NWSDB.AccountService\\NWSDB.AccountService.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\NWSDB.BillingService\\NWSDB.BillingService.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\NWSDB.UsageService\\NWSDB.UsageService.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\NWSDB.PaymentService\\NWSDB.PaymentService.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\NWSDB.NotificationService\\NWSDB.NotificationService.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\NWSDB.ApiGateway\\NWSDB.ApiGateway.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\NWSDB.WindowsClient\\NWSDB.WindowsClient.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

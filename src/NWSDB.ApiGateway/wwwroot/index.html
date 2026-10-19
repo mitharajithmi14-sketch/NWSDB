@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>NWSDB - National Water Supply and Drainage Board</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Source+Sans+3:wght@400;600&display=swap">
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="logo" href="#home"><span class="drop" aria-hidden="true"></span>NWSDB</a>
+    <nav aria-label="Main">
+      <a href="#home">Home</a>
+      <a href="#about">About NWSDB</a>
+      <a href="#services">Services</a>
+      <a href="#customer">Customer Services</a>
+      <a href="#usage">Water Usage</a>
+      <a href="#billing">Billing / Payments</a>
+      <a href="#admin" class="admin-only" hidden>Admin</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="alt" id="auth-btn">Login</button>
+    <button class="alt" id="theme" aria-label="Switch light or dark theme">Theme</button>
+  </div>
+</header>
+
+<main>
+  <!-- ===== HOME ===== -->
+  <div class="hero" id="home">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">Sri Lanka National Water Supply and Drainage Board</p>
+        <h1>Check your water bill and pay in under a minute.</h1>
+        <p>See your latest bill and water usage, then pay through the NWSDB website, a partner bank app, a mobile wallet or a post office.</p>
+        <p class="hero-actions"><a class="btn" href="#billing">Pay a bill</a> <a class="btn ghost" href="#usage">View my usage</a></p>
+      </div>
+      <div class="lookup card">
+        <h3>Quick bill check</h3>
+        <label for="q-acc">Water account number</label>
+        <input id="q-acc" inputmode="numeric" placeholder="e.g. 1001" autocomplete="off">
+        <p class="row"><button id="q-go">Show current bill</button></p>
+        <div class="res" id="q-res" aria-live="polite">Enter your account number to see your current bill.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== ABOUT ===== -->
+  <section id="about">
+    <div class="wrap">
+      <h2>About NWSDB</h2>
+      <p class="lead">The National Water Supply and Drainage Board provides safe drinking water and drainage services across Sri Lanka. This website lets every customer check bills and usage, and pay through more partners, without visiting a branch.</p>
+      <div class="stats">
+        <div><b>24/7</b>online bill and usage details</div>
+        <div><b>4</b>payment channels</div>
+        <div><b>5</b>independent web services</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SERVICES ===== -->
+  <section class="alt" id="services">
+    <div class="wrap">
+      <h2>Services</h2>
+      <p class="lead">Each online service is a separate .NET Web API behind one API gateway, so this website and partner apps use the same trusted data.</p>
+      <div class="grid">
+        <div class="card"><h3>Account service</h3><p>Register, log in and verify a water account.</p></div>
+        <div class="card"><h3>Billing service</h3><p>Current bill, due date and bill history.</p></div>
+        <div class="card"><h3>Usage service</h3><p>Meter readings and units used each month.</p></div>
+        <div class="card"><h3>Payment service</h3><p>Pay from the website or a partner and get a receipt number.</p></div>
+        <div class="card"><h3>Notification service</h3><p>Payment receipts by SMS or email, and customer messages.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CUSTOMER SERVICES ===== -->
+  <section id="customer">
+    <div class="wrap">
+      <h2>Customer Services</h2>
+      <p class="lead">Common requests you can send without visiting a branch.</p>
+      <div class="grid">
+        <div class="card"><h3>New connection</h3><p>Apply for a new water connection.</p><button class="alt small" data-topic="New connection request">Request</button></div>
+        <div class="card"><h3>Report a leak or outage</h3><p>Tell us where the problem is so a team can be sent.</p><button class="alt small" data-topic="Leak or outage report">Report</button></div>
+        <div class="card"><h3>Meter reading query</h3><p>Ask for a re-check if your reading looks wrong.</p><button class="alt small" data-topic="Meter reading query">Ask</button></div>
+        <div class="card"><h3>Update my details</h3><p>Change your phone number, email or address.</p><button class="alt small" data-topic="Update my details">Update</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== USAGE ===== -->
+  <section class="alt" id="usage">
+    <div class="wrap">
+      <h2>Water Usage</h2>
+      <p class="lead">Units used for the last six months, from the Usage service.</p>
+      <div class="two">
+        <div class="card">
+          <label for="u-acc">Water account number</label>
+          <input id="u-acc" inputmode="numeric" placeholder="Log in first">
+          <p class="row"><button id="u-go">Load usage</button></p>
+          <div class="res" id="u-res" aria-live="polite">Log in to see your water usage.</div>
+        </div>
+        <div class="card">
+          <h3>Units used (m³)</h3>
+          <div class="chart" id="chart" role="img" aria-label="Monthly water usage chart"></div>
+          <div class="months" id="months"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BILLING ===== -->
+  <section id="billing">
+    <div class="wrap">
+      <h2>Billing / Payments</h2>
+      <p class="lead">Check what you owe, choose a payment channel and pay.</p>
+      <div class="two">
+        <div class="card">
+          <h3>Pay a bill</h3>
+          <label for="b-acc">Water account number</label>
+          <input id="b-acc" inputmode="numeric" placeholder="Log in first">
+          <div class="bill-box" id="bill-box" hidden>
+            <div><span>Month</span><b id="bb-month"></b></div>
+            <div><span>Units</span><b id="bb-units"></b></div>
+            <div><span>Amount</span><b id="bb-amount"></b></div>
+            <div><span>Due date</span><b id="bb-due"></b></div>
+            <div><span>Status</span><b id="bb-status"></b></div>
+          </div>
+          <label for="b-ch">Payment channel</label>
+          <select id="b-ch">
+            <option>NWSDB website</option>
+            <option>Partner bank app</option>
+            <option>Mobile wallet</option>
+            <option>Post office</option>
+          </select>
+          <p class="row"><button id="b-go">Pay current bill</button></p>
+          <div class="res" id="b-res" aria-live="polite">Log in to see and pay your bill.</div>
+        </div>
+        <div class="card">
+          <h3>Bill history</h3>
+          <table>
+            <thead><tr><th>Month</th><th>Units</th><th>Amount (LKR)</th><th>Due date</th><th>Status</th></tr></thead>
+            <tbody id="hist"><tr><td colspan="5">Log in to see your bill history.</td></tr></tbody>
+          </table>
+          <div class="partners"><span>Banks</span><span>Mobile wallets</span><span>Post offices</span><span>Partner apps</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== LOGIN / REGISTER ===== -->
+  <section class="alt" id="login">
+    <div class="wrap">
+      <h2>Customer Login</h2>
+      <p class="lead">Log in to see your own bill, usage and payment history. New online customers can register with the account number on their bill.</p>
+      <div class="two">
+        <div class="card" id="login-card">
+          <h3>Log in</h3>
+          <label for="l-u">Account number (or staff username)</label>
+          <input id="l-u" autocomplete="username">
+          <label for="l-p">Password</label>
+          <input id="l-p" type="password" autocomplete="current-password">
+          <p class="row"><button id="l-go">Log in</button> <button class="alt" id="l-out" hidden>Sign out</button></p>
+          <div class="res" id="l-res" aria-live="polite">Enter your account number and password.</div>
+        </div>
+        <div class="card" id="register">
+          <h3>Register for online services</h3>
+          <div class="form-grid">
+            <div><label for="r-acc">Account number</label><input id="r-acc" inputmode="numeric"></div>
+            <div><label for="r-name">Full name</label><input id="r-name" autocomplete="name"></div>
+            <div><label for="r-email">Email address</label><input id="r-email" type="email" autocomplete="email"></div>
+            <div><label for="r-phone">Phone number</label><input id="r-phone" type="tel" autocomplete="tel"></div>
+            <div><label for="r-pass">Password</label><input id="r-pass" type="password" autocomplete="new-password"></div>
+            <div><label for="r-pass2">Confirm password</label><input id="r-pass2" type="password" autocomplete="new-password"></div>
+          </div>
+          <p class="row"><button id="r-go">Register</button></p>
+          <div class="res" id="r-res" aria-live="polite">All fields are required.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ADMIN DASHBOARD ===== -->
+  <section id="admin" class="admin-only" hidden>
+    <div class="wrap">
+      <h2>Admin Dashboard</h2>
+      <p class="lead">NWSDB staff can add meter readings, create bills, and update or delete bills.</p>
+      <div class="two">
+        <div class="card">
+          <h3>Add meter reading and create bill</h3>
+          <div class="form-grid">
+            <div><label for="a-acc">Account number</label><input id="a-acc" inputmode="numeric"></div>
+            <div><label for="a-month">Month</label><input id="a-month" type="month"></div>
+            <div><label for="a-meter">Meter value (m³)</label><input id="a-meter" type="number" min="0"></div>
+            <div><label for="a-units">Units used (m³)</label><input id="a-units" type="number" min="0"></div>
+            <div><label for="a-due">Due date</label><input id="a-due" type="date"></div>
+          </div>
+          <p class="row"><button id="a-go">Save reading and create bill</button></p>
+          <div class="res" id="a-res" aria-live="polite">The amount is calculated by the Billing service from the tariff.</div>
+        </div>
+        <div class="card">
+          <h3>Update a bill</h3>
+          <div class="form-grid">
+            <div><label for="e-id">Bill ID</label><input id="e-id" readonly placeholder="Choose Edit in the table"></div>
+            <div><label for="e-amount">Amount (LKR)</label><input id="e-amount" type="number" min="0" step="0.01"></div>
+            <div><label for="e-due">Due date</label><input id="e-due" type="date"></div>
+            <div><label for="e-status">Status</label><select id="e-status"><option>Unpaid</option><option>Paid</option></select></div>
+          </div>
+          <p class="row"><button id="e-go">Update bill</button></p>
+          <div class="res" id="e-res" aria-live="polite">Choose Edit next to a bill in the table below.</div>
+        </div>
+      </div>
+      <div class="card wide">
+        <div class="table-head">
+          <h3>All bills</h3>
+          <input id="f-acc" placeholder="Filter by account" inputmode="numeric" aria-label="Filter bills by account number">
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>Bill ID</th><th>Account</th><th>Month</th><th>Units</th><th>Amount (LKR)</th><th>Due date</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="all-bills"><tr><td colspan="8">Loading...</td></tr></tbody>
+          </table>
+        </div>
+        <div class="res" id="t-res" aria-live="polite">Bills from the Billing service.</div>
+      </div>
+      <div class="card wide">
+        <h3>Customer messages</h3>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>Date</th><th>Name</th><th>Email</th><th>Message</th></tr></thead>
+            <tbody id="msgs"><tr><td colspan="4">No messages yet.</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT ===== -->
+  <section class="alt" id="contact">
+    <div class="wrap">
+      <h2>Contact</h2>
+      <div class="two">
+        <div>
+          <p class="lead">Send us a message and we will reply by email.</p>
+          <p>Head office: Galle Road, Ratmalana, Sri Lanka</p>
+        </div>
+        <div class="card">
+          <label for="c-n">Name</label><input id="c-n" autocomplete="name">
+          <label for="c-e">Email</label><input id="c-e" type="email" autocomplete="email">
+          <label for="c-m">Message</label><textarea id="c-m" rows="4"></textarea>
+          <p class="row"><button id="c-go">Send message</button></p>
+          <div class="res" id="c-res" aria-live="polite">All fields are required.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">Sri Lanka National Water Supply and Drainage Board – student project for CSE5013 Service Oriented Computing. Not an official NWSDB website.</div>
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>

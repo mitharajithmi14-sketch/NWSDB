@@ -1,0 +1,53 @@
+# Runs the whole NWSDB system in Docker: docker compose up --build
+# Website and API gateway: http://localhost:8080
+services:
+  account:
+    build: { context: ./src, dockerfile: NWSDB.AccountService/Dockerfile }
+    environment:
+      - ConnectionStrings__AccountDb=Data Source=/data/accountdb.db
+    volumes: [ "account-data:/data" ]
+
+  billing:
+    build: { context: ./src, dockerfile: NWSDB.BillingService/Dockerfile }
+    environment:
+      - ConnectionStrings__BillingDb=Data Source=/data/billingdb.db
+    volumes: [ "billing-data:/data" ]
+
+  usage:
+    build: { context: ./src, dockerfile: NWSDB.UsageService/Dockerfile }
+    environment:
+      - ConnectionStrings__UsageDb=Data Source=/data/usagedb.db
+    volumes: [ "usage-data:/data" ]
+
+  payment:
+    build: { context: ./src, dockerfile: NWSDB.PaymentService/Dockerfile }
+    environment:
+      - ConnectionStrings__PaymentDb=Data Source=/data/paymentdb.db
+      - Services__Billing=http://billing:8080/
+      - Services__Notification=http://notification:8080/
+    volumes: [ "payment-data:/data" ]
+    depends_on: [ billing, notification ]
+
+  notification:
+    build: { context: ./src, dockerfile: NWSDB.NotificationService/Dockerfile }
+    environment:
+      - ConnectionStrings__NotificationDb=Data Source=/data/notificationdb.db
+    volumes: [ "notification-data:/data" ]
+
+  gateway:
+    build: { context: ./src, dockerfile: NWSDB.ApiGateway/Dockerfile }
+    ports: [ "8080:8080" ]
+    environment:
+      - ReverseProxy__Clusters__account__Destinations__d1__Address=http://account:8080/
+      - ReverseProxy__Clusters__billing__Destinations__d1__Address=http://billing:8080/
+      - ReverseProxy__Clusters__usage__Destinations__d1__Address=http://usage:8080/
+      - ReverseProxy__Clusters__payment__Destinations__d1__Address=http://payment:8080/
+      - ReverseProxy__Clusters__notification__Destinations__d1__Address=http://notification:8080/
+    depends_on: [ account, billing, usage, payment, notification ]
+
+volumes:
+  account-data:
+  billing-data:
+  usage-data:
+  payment-data:
+  notification-data:
